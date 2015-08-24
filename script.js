@@ -67,7 +67,7 @@ var bar = chart.selectAll("g")
 
 // Create rectangles of the correct width
 bar.append("rect")
-.attr("fill", function(d,i) { return i == 1 ? '#00acff' : '#fa0033' })
+.attr("fill", function(d,i) { return i == 1 ? '#327bbe' : '#ea504e' })
 .attr("class", "bar")
 .attr("width", 0)
 .attr("height", barHeight - 1);
