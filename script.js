@@ -17,7 +17,7 @@ function renderChart() {
     };
 
     var chartWidth       = window.innerWidth - 260,
-    barHeight        = Math.max((window.innerHeight / 10), 50);
+    barHeight        = Math.max((window.innerHeight / 8) - 25, 50);
     groupHeight      = barHeight * data.series.length,
     gapBetweenGroups = 10,
     spaceForLabels   = 180,
@@ -37,7 +37,7 @@ for (var i=0; i<data.labels.length; i++) {
 // Color scale
 var color = d3.scale.category20();
 var chartHeight = (barHeight * zippedData.length) + (gapBetweenGroups * data.labels.length);
-chartHeight += 60;
+//chartHeight += 40;
 
 var x = d3.scale.linear()
 .domain([0, d3.max(zippedData)])
