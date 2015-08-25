@@ -55,7 +55,7 @@ var labelWidth = 240,
     barWidth = 80,
     chartWidth = $('.chart').width();
 
-var colors = colors = d3.scale.category20();
+var colors = colors = d3.scale.category20c();
 var stack = d3.layout.stack()
     .values(function(d) { return d.values; });
 
