@@ -1,129 +1,118 @@
-function renderChart() {
-    var data = {
-        labels: [
-        'Bernie Sanders', 
-        'Hillary Clinton', 
-        'Jeb Bush',
-        'Ted Cruz', 
-        'Scott Walker',
-        'Marco Rubio', 
-        ],
-        series: [
-        {
-            label: '',
-            values: [0, 17.09, 103.17, 37.83, 26.23, 16.06]
-        },
-        ]
-    };
+var candidates = [
+    'Bernie Sanders',
+    'Hillary Clinton',
+    'Jeb Bush',
+    'Ted Cruz',
+    'Marco Rubio',
+    'Scott Walker',
+]
 
-    var chartWidth       = window.innerWidth - 260,
-    barHeight        = Math.max((window.innerHeight / 8) - 25, 50);
-    groupHeight      = barHeight * data.series.length,
-    gapBetweenGroups = 10,
-    spaceForLabels   = 180,
-    spaceForLegend   = 0,
-    isLarge          = window.innerWidth > 1500,
-    isSmall          = window.innerWidth < 768;
+var totals = [
+    0,
+    17.09,
+    103.17,
+    37.83,
+    16.06,
+    26.23,
+]
+var max = 103.17;
 
-
-// Zip the series data together (first values, second values, etc.)
-var zippedData = [];
-for (var i=0; i<data.labels.length; i++) {
-    for (var j=0; j<data.series.length; j++) {
-        zippedData.push(data.series[j].values[i]);
+// Pre-process the data filling in the zeros
+var counter = 0;
+for (var i=0; i<dataset.length; i++) {
+    var set = dataset[i];    
+    var candidateId = candidates.indexOf(set.candidate);
+    if (candidateId < 0) {
+        console.log('Error: unknown candidate %s', set.candidate);
+    }
+    dataset[i].values = [{
+        "id": counter++,
+        "x": candidateId,
+        "y": set.amount,
+    }]
+    for (var j=0; j<candidates.length; j++) {
+        var hasCandidate = false;
+        for (var k=0; k<set.values.length; k++) {
+            var donation = set.values[k];
+            if (donation.x == j) {
+                hasCandidate = true;
+                break;
+            }
+        }
+        if (!hasCandidate) {
+            dataset[i]["values"].splice(j, 0, {"x":j, "y":0, "id": 0});
+        }
     }
 }
-
-// Color scale
-var color = d3.scale.category20();
-var chartHeight = (barHeight * zippedData.length) + (gapBetweenGroups * data.labels.length);
-//chartHeight += 40;
-
-var x = d3.scale.linear()
-.domain([0, d3.max(zippedData)])
-.range([0, chartWidth]);
-
-var y = d3.scale.linear()
-.range([chartHeight + gapBetweenGroups, 0]);
-
-var yAxis = d3.svg.axis()
-.scale(y)
-.tickFormat('')
-.tickSize(0)
-.orient("left");
-
+//console.log(JSON.stringify(dataset));
 // Specify the chart area and dimensions
 var chart = d3.select(".chart")
-.attr("width", spaceForLabels + chartWidth + spaceForLegend)
-.attr("height", chartHeight);
+    .attr("width", 100)
+    .attr("height", 100);
 
-// Create bars
-var bar = chart.selectAll("g")
-.data(zippedData)
-.enter().append("g")
-.attr("transform", function(d, i) {
-    return "translate(" + spaceForLabels + "," + (i * barHeight + gapBetweenGroups * (0.5 + Math.floor(i/data.series.length))) + ")";
-});
+var labelWidth = 240,
+    barGap = 10,
+    barWidth = 80,
+    chartWidth = $('.chart').width();
 
-// Create rectangles of the correct width
-bar.append("rect")
-.attr("fill", function(d,i) { return i == 1 ? '#327bbe' : '#ea504e' })
-.attr("class", "bar")
-.attr("width", 0)
-.attr("height", barHeight - 1);
+var colors = colors = d3.scale.category20();
+var stack = d3.layout.stack()
+    .values(function(d) { return d.values; });
 
-// Add text label in bar
-bar.append("text")
-.attr("class", "amount")
-.attr("x", function(d) { return isSmall ? 20 : x(d) - 20; })
-.attr("y", barHeight / 2)
-.attr("fill", "red")
-.attr("dy", ".35em")
-.text(function(d) { return '$' + d + (isLarge ? ' Million' : 'M' ); });
+var scale = d3.scale.linear()
+    .domain([0, max])
+    .range([0, chartWidth - labelWidth]);
 
-// Draw labels
-bar.append("text")
-.attr("class", "label")
-.attr("x", function(d) { return -10; })
-.attr("y", groupHeight / 2)
-.attr("dy", ".35em")
-.text(function(d,i) {
-    if (i % data.series.length === 0)
-        return data.labels[Math.floor(i/data.series.length)];
-    else
-        return ""});
+var div = d3.select("body")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);  
 
-chart.append("g")
-.attr("class", "y axis")
-.attr("transform", "translate(" + spaceForLabels + ", " + -gapBetweenGroups/2 + ")")
-.call(yAxis);
+var donation = chart.selectAll("g.donation")
+      .data(stack(dataset))
+      .enter().append("svg:g")
+      .style("fill", function(d, i) { return "#ea504e"; })
+      .style("stroke", function(d, i) { return 10; });
 
-d3.selectAll("rect")
-.transition()
-.delay(function (d, i) { return i=0 ? 0 : i*150; })
-.duration(700)
-//.ease("bounce")
-.attr("width", x);
-};
+var group = donation.selectAll("rect")
+      .data(function(d){return d.values;})
+      .enter();
 
-$(function() {
-    renderChart();    
-})
+var rect = group.append("svg:rect")
+      .filter(function(d) { return d.y > 0 })
+      .attr("class", "donation")
+      .attr("x", function(d) { return labelWidth + scale(d.y0); })
+      .attr("y", function(d) { return d.x * (barWidth + barGap); })
+      .attr("fill", function(d,i) { return colors(d.id) })
+      .attr("height", barWidth)
+      .attr("width", function(d) { return scale(d.y); })
+      .on("mouseover", function(d) {
+        div.transition()
+            .duration(300)  
+            .style("opacity", .9);        
+        div.html('<div class="name">' + truncate(dataset[d.id].name, 25) + '</div>' +
+                '<div class="pac">' + dataset[d.id].pac + '</div>' +
+                '<div class="amount">$' + dataset[d.id].amount + ' Million</div>'
+            )  
+            .style("left", ($('.chart').offset().left + labelWidth + 4 + scale(d.y0)) + "px")
+            .style("top", $('.chart').offset().top + (d.x * (barWidth + barGap)) + "px");        
+      });
 
+chart.selectAll("g.candidate-name")
+    .data(candidates)
+    .enter().append("text")
+    .attr("class", "candidate-name")
+    .attr("x", 0)
+    .attr("y", function(d, i) { return (i * (barWidth + barGap) + 35) })
+    .text(function(d, i) { return candidates[i]  });
 
-$(window).resize(function() {
-    clearTimeout($.data(this, 'resizeTimer'));
-    $.data(this, 'resizeTimer', setTimeout(function() {
-//do something
-d3.selectAll("svg > *").remove();        
-renderChart();
-}, 800));
-});
-
-$(window).on("resize", function() {
-//renderChart();
-});
-
+chart.selectAll("g.candidate-amount")
+    .data(candidates)
+    .enter().append("text")
+    .attr("class", "candidate-amount")
+    .attr("x", 0)
+    .attr("y", function(d, i) { return (i * (barWidth + barGap) + 65) })
+    .text(function(d, i) { return '$' + (+totals[i] || 0).toFixed(2) + ' Million' });
 
 
 /*!
@@ -252,3 +241,10 @@ var cbpAnimatedHeader = (function() {
     init();
 
 })();
+
+function truncate(string, length){
+   if (string.length > length)
+      return string.substring(0,length)+'...';
+   else
+      return string;
+};
