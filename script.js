@@ -17,7 +17,7 @@ function renderChart() {
     };
 
     var chartWidth       = window.innerWidth - 260,
-    barHeight        = Math.max((window.innerHeight / 6) - 40, 50);
+    barHeight        = Math.max((window.innerHeight / 10), 50);
     groupHeight      = barHeight * data.series.length,
     gapBetweenGroups = 10,
     spaceForLabels   = 180,
