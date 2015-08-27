@@ -19,7 +19,7 @@
     <meta property="og:url" content="http://bernieisnotforsale.com"/>
     <meta property="og:title" content="Bernie is NOT for sale"/>
     <meta property="og:image" content="http://bernieisnotforsale.com/logo.jpg"/>
-    <meta property="og:description" content="A Political Revolution Is Coming"/>
+    <meta property="og:description" content="Bernie Sanders is a Democratic candidate for President of the United States. In 2006, he was elected to the U.S. Senate after 16 years as Vermont’s sole congressman in the House of Representatives. Bernie is now serving his second term in the U.S. Senate after winning re-election in 2012 with 71 percent of the vote."/>
     <meta property="og:type" content="website"/> 
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -34,8 +34,8 @@
     <link href="style.css" rel="stylesheet" type="text/css">
 
     <script src="https://code.jquery.com/jquery-2.1.4.min.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" charset="utf-8"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>        
 
 
 </head>
@@ -70,10 +70,10 @@
                         <a href="#page-top"></a>
                     </li>
                     <li class="page-scroll">
-                        <a href="http://imgur.com/gallery/N09gd9Y" target="_blank">ISSUES</a>
+                        <a href="#" onclick="$('#issuesModal').modal('show')">ISSUES</a>
                     </li>
                     <li class="page-scroll">
-                        <a href="http://imgur.com/gallery/2xieH96" target="_blank">DONORS</a>
+                        <a href="#" onclick="$('#donorsModal').modal('show')">DONORS</a>
                     </li>
                     <li class="page-scroll">
                         <a href="https://secure.actblue.com/contribute/page/lets-go-bernie" target="_blank">DONATE</a>
@@ -107,8 +107,29 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h2 class="text-center">Cash Raised by Super PACs</h2>
-                
+                    <div class="pull-right">
+                        <h5>
+                            Group By &nbsp;
+                            <div class="btn-group">
+                              <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 140px">
+                                <span id="groupByLabel">Candidate</span> <span class="caret"></span>
+                              </button>
+                              <ul class="dropdown-menu" id="group-fields"></ul>
+                            </div>                  
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+
+                            Sort By &nbsp;
+                            <div class="btn-group">
+                              <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 140px">
+                                <span id="sortByLabel">Amount <span class="caret"></span>
+                              </button>
+                              <ul class="dropdown-menu" id="sort-fields"></ul>
+                            </div>                                                
+                        </h5>
+                    </div>
+
+                    <h2>Cash Raised by Super PACs</h2>                
 
                     <svg class="chart"></svg>
                     <div class="pull-right">
@@ -120,7 +141,9 @@
 
 
                     <p class="source">
-                        Source: <a href="http://www.bloomberg.com/politics/graphics/2015-july-super-pac/" target="_blank">Bloomberg Politics</a> - July 2015
+                        <a href="http://www.bloomberg.com/politics/graphics/2015-july-super-pac/" target="_blank">Bloomberg Politics - July 2015</a> &nbsp;|&nbsp; 
+                        <a href="https://github.com/hillelcoren/bernie2016/blob/gh-pages/script.js" target="_blank">Source Code</a> &nbsp;|&nbsp; 
+                        <a href="https://docs.google.com/spreadsheets/d/1bhCxaUYqWImtP9PVR062PohKoVglch1-sQytWGkrQTQ/edit#gid=0" target="_blank">Raw Data</a>
                     </p>
 
                 </div>                
@@ -189,7 +212,7 @@
                 <div class="row">
                     <div class="col-lg-12 disclaimer">                        
                         The content on bernieisnotforsale.com is not a reflection of Senator Sanders, his office, or his campaign. <br/>
-                        This website is made and maintained by a volunteer with no relation or association with Bernie Sanders.
+                        This website is made and maintained by a <a href="http://hillelcoren.com/invoice-ninja/" target="_blank">volunteer</a> with no relation or association with Bernie Sanders.
                     </div>
                 </div>
             </div>
@@ -197,7 +220,44 @@
 
     </footer>
 
+    <div class="modal fade" id="issuesModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                <div class="modal-body">
+                    <a href="issues.png" target="_blank"><img src="issues.png" class="img-responsive"></a>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="donorsModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                <div class="modal-body">
+                    <a href="donors.png" target="_blank"><img src="donors.png" class="img-responsive"></a>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <script src="data.js" charset="utf-8"></script>
+    <script src="vendor.js" charset="utf-8"></script>
+    <script src="script.js" charset="utf-8"></script>
+
     <script type="text/javascript">
+        /*
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -205,10 +265,58 @@
 
         ga('create', 'UA-66685806-1', 'auto');
         ga('send', 'pageview');
-    </script>
+        */
 
-    <script src="data.js" charset="utf-8"></script>
-    <script src="script.js" charset="utf-8"></script>
+        function setGroupBy(groupBy) {
+            settings.groupBy = (groupBy == 'Super PAC' ? 'pac' : groupBy.toLowerCase());
+            $('#groupByLabel').text(groupBy);
+            populateOptions();
+            drawChart();            
+        }
+
+        function setSortBy(sortBy) {
+            settings.sortBy = (sortBy == 'Super PAC' ? 'pac' : sortBy.toLowerCase());
+            $('#sortByLabel').text(sortBy);
+            populateOptions();
+            drawChart();            
+        }
+
+        // populate the group by and sort by options
+        function populateOptions() {
+            var options = ['group', 'sort'];
+            $('.dropdown-menu').empty();                
+            for (i=0; i<options.length; i++) {
+                var option = options[i];
+                for (var j=0; j<window[option + 'ByFields'].length; j++) {
+                    var field = window[option + 'ByFields'][j];
+                    if (option == 'sort' && field.toLowerCase().indexOf(settings.groupBy) >= 0) {
+                        // skip it
+                    } else {
+                        $('#' + option + '-fields').append('<li><a onclick="set' + option.capitalizeFirstLetter() + 'By(\'' + field +'\');return false;">' + field + '</a></li>');
+                    }
+                }
+            }
+        }
+
+        // hide the tooltip when leaving the chart
+        $('.chart').mouseleave(function(event) {
+            if (!$('.tooltip').is(event.toElement)) {
+                $('.tooltip').css('opacity', 0);
+            }
+        });
+
+        // hide the tooltip when opening dropdown        
+        $('div.btn-group').click(function() {
+            $('.tooltip').css('opacity', 0);
+        })
+
+        $(function() {
+            populateOptions();
+            drawChart();
+        });
+        
+
+    </script>
 
 </body>
 </html>

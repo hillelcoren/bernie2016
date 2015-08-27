@@ -2,6 +2,11 @@ body {
     font-family: Roboto, sans-serif;
 }
 
+body.modal-open {
+    overflow-y: auto !important;
+    padding-right: 0 !important;
+}
+
 .navbar-default {
     background-color: #193d5f;
     border-color: transparent;
@@ -23,41 +28,66 @@ body {
     font-weight: bold;
 }
 
+ul.dropdown-menu li {
+    cursor: pointer;
+}
+
 .tooltip {
-  position: absolute;   
-  width: 250px;  
-  top: 0;
-  height: 80px;
-  padding: 8px; 
-  font: 12px sans-serif;    
-  background-color: #FFFFFF;
-  color: #000000;
-  border: 0px;                  
-  border-radius: 4px;
-  background-color: rgb(20,20,20,); /* Needed for IEs */
-  -moz-box-shadow: 0px 1px 5px 1px rgba(0,0,0,0.4);
-  -webkit-box-shadow: 0px 1px 5px 1px rgba(0,0,0,0.4);
-  box-shadow: 0px 1px 5px 1px rgba(0,0,0,0.4);
+    z-index: 10;
+    position: absolute;   
+    width: 250px;  
+    top: 0;
+    height: 80px;
+    padding: 8px; 
+    font: 12px sans-serif;    
+    background-color: #FFFFFF;
+    color: #000000;
+    border: 0px;                  
+    border-radius: 4px;
+    background-color: rgb(20,20,20,); /* Needed for IEs */
+    -moz-box-shadow: 0px 1px 5px 1px rgba(0,0,0,0.4);
+    -webkit-box-shadow: 0px 1px 5px 1px rgba(0,0,0,0.4);
+    box-shadow: 0px 1px 5px 1px rgba(0,0,0,0.4);
+}
+
+.tooltip img {
+    width: 32px;    
+    padding-left: 6px;
 }
 
 .tooltip .name {
-  font-size: 16px;
-  font-weight: 700;
+    font-size: 16px;
+    font-weight: 700;
 }
 
 .tooltip .pac {
-  font-size: 15px;
-  color: #444444;
-  padding-bottom: 6px;
+    font-size: 15px;
+    color: #444444;
+    padding-bottom: 6px;
+}
+
+.tooltip .industry {
+    font-style: italic;
+    padding-top: 6px;
 }
 
 .tooltip .amount {
-  font-size: 18px;
+    font-size: 18px;
 }
 
 .disclaimer {
     font-weight: 300;
 }
+
+.dropdown-menu a,
+.dropdown-menu a:hover,
+.dropdown-menu a:focus,
+.dropdown-menu a:active,
+.dropdown-menu a.active {
+    outline: 0;
+    color: #000000 !important;
+}
+
 
 .skills a,
 .skills a:hover,
